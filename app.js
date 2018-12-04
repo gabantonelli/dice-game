@@ -13,3 +13,5 @@ score = [0, 0];
 currentScore = 0;
 activePlayer = 0;
 randomDice = Math.floor(Math.random() * 6) + 1;
+
+document.querySelector(".dice").style.display = "none";
