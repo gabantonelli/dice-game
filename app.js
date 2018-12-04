@@ -9,17 +9,51 @@ GAME RULES:
 
 */
 var score, currentScore, activePlayer;
-score = [0, 0];
-currentScore = 0;
-activePlayer = 0;
 
-// Before the first launch hide the dice image
-document.querySelector(".dice").style.display = "none";
-// Before the first roll set scores to 0
-document.getElementById("score-0").textContent = "0";
-document.getElementById("score-1").textContent = "0";
-document.getElementById("current-0").textContent = "0";
-document.getElementById("current-1").textContent = "0";
+// define an init function for starting a new game
+function init() {
+  score = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+
+  // Before the first launch hide the dice image
+  document.querySelector(".dice").style.display = "none";
+  // Before the first roll set scores to 0
+  document.getElementById("score-0").textContent = "0";
+  document.getElementById("score-1").textContent = "0";
+  document.getElementById("current-0").textContent = "0";
+  document.getElementById("current-1").textContent = "0";
+  // correct name of the player
+  document.getElementById("name-0").textContent = "Player 1";
+  document.getElementById("name-1").textContent = "Player 2";
+  // remove winner class if any
+  document.querySelector(".player-0-panel").classList.remove("winner");
+  document.querySelector(".player-1-panel").classList.remove("winner");
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-1-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.add("active");
+}
+
+// define function to switch player
+function changePlayer() {
+  // hide the dice again
+  document.querySelector(".dice").style.display = "none";
+  //bring score to 0
+  currentScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = currentScore;
+  // remove visual class 'active' from the player
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.remove("active");
+  // next player
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  // add visual class 'active' to the new player
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("active");
+}
+
+init();
 
 // create an event listener for the button to roll the dice
 document.querySelector(".btn-roll").addEventListener("click", function() {
@@ -37,22 +71,31 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
       "current-" + activePlayer
     ).textContent = currentScore;
   } else {
-    // hide the dice again
+    changePlayer();
+  }
+});
+
+// create an event listener for the 'hold' button
+document.querySelector(".btn-hold").addEventListener("click", function() {
+  // add current score to global score
+  score[activePlayer] += currentScore;
+  // update the UI
+  document.getElementById("score-" + activePlayer).textContent =
+    score[activePlayer];
+  // check if the user won the game
+  if (score[activePlayer] >= 100) {
+    document.getElementById("name-" + activePlayer).textContent = "Winner!";
     document.querySelector(".dice").style.display = "none";
-    //bring score to 0
-    currentScore = 0;
-    document.getElementById(
-      "current-" + activePlayer
-    ).textContent = currentScore;
-    // remove visual class 'active' from the player
     document
       .querySelector(".player-" + activePlayer + "-panel")
       .classList.remove("active");
-    // next player
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-    // add visual class 'active' to the new player
     document
       .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("active");
+      .classList.add("winner");
+  } else {
+    changePlayer();
   }
 });
+
+// create event listener for the "new game" button, chiamando la funizione init
+document.querySelector(".btn-new").addEventListener("click", init);
