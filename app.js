@@ -22,6 +22,6 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
   var randomDice = Math.floor(Math.random() * 6) + 1;
   // display the result of the dice roll
   var diceDOM = document.querySelector(".dice");
-  diceDom.style.display = "block";
-  diceDom.src = "dice-" + randomDice + ".png";
+  diceDOM.style.display = "block";
+  diceDOM.src = "dice-" + randomDice + ".png";
 });
