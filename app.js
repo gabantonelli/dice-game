@@ -29,4 +29,30 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
   var diceDOM = document.querySelector(".dice");
   diceDOM.style.display = "block";
   diceDOM.src = "dice-" + randomDice + ".png";
+  // if the dice is not a 1 update score
+  if (randomDice !== 1) {
+    //update scores
+    currentScore += randomDice;
+    document.getElementById(
+      "current-" + activePlayer
+    ).textContent = currentScore;
+  } else {
+    // hide the dice again
+    document.querySelector(".dice").style.display = "none";
+    //bring score to 0
+    currentScore = 0;
+    document.getElementById(
+      "current-" + activePlayer
+    ).textContent = currentScore;
+    // remove visual class 'active' from the player
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.remove("active");
+    // next player
+    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+    // add visual class 'active' to the new player
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("active");
+  }
 });
