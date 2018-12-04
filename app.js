@@ -21,6 +21,25 @@ document.getElementById("score-1").textContent = "0";
 document.getElementById("current-0").textContent = "0";
 document.getElementById("current-1").textContent = "0";
 
+// define function to switch player
+function changePlayer() {
+  // hide the dice again
+  document.querySelector(".dice").style.display = "none";
+  //bring score to 0
+  currentScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = currentScore;
+  // remove visual class 'active' from the player
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.remove("active");
+  // next player
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  // add visual class 'active' to the new player
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("active");
+}
+
 // create an event listener for the button to roll the dice
 document.querySelector(".btn-roll").addEventListener("click", function() {
   // roll the dice to generate a random number from 1 to 6
@@ -37,22 +56,28 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
       "current-" + activePlayer
     ).textContent = currentScore;
   } else {
-    // hide the dice again
+    changePlayer();
+  }
+});
+
+// create an event listener for the 'hold' button
+document.querySelector(".btn-hold").addEventListener("click", function() {
+  // add current score to global score
+  score[activePlayer] += currentScore;
+  // update the UI
+  document.getElementById("score-" + activePlayer).textContent =
+    score[activePlayer];
+  // check if the user won the game
+  if (score[activePlayer] >= 100) {
+    document.getElementById("name-" + activePlayer).textContent = "Winner!";
     document.querySelector(".dice").style.display = "none";
-    //bring score to 0
-    currentScore = 0;
-    document.getElementById(
-      "current-" + activePlayer
-    ).textContent = currentScore;
-    // remove visual class 'active' from the player
     document
       .querySelector(".player-" + activePlayer + "-panel")
       .classList.remove("active");
-    // next player
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-    // add visual class 'active' to the new player
     document
       .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("active");
+      .classList.add("winner");
+  } else {
+    changePlayer();
   }
 });
