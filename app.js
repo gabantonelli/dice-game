@@ -15,6 +15,11 @@ activePlayer = 0;
 
 // Before the first launch hide the dice image
 document.querySelector(".dice").style.display = "none";
+// Before the first roll set scores to 0
+document.getElementById("score-0").textContent = "0";
+document.getElementById("score-1").textContent = "0";
+document.getElementById("current-0").textContent = "0";
+document.getElementById("current-1").textContent = "0";
 
 // create an event listener for the button to roll the dice
 document.querySelector(".btn-roll").addEventListener("click", function() {
