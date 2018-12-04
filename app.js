@@ -9,17 +9,30 @@ GAME RULES:
 
 */
 var score, currentScore, activePlayer;
-score = [0, 0];
-currentScore = 0;
-activePlayer = 0;
 
-// Before the first launch hide the dice image
-document.querySelector(".dice").style.display = "none";
-// Before the first roll set scores to 0
-document.getElementById("score-0").textContent = "0";
-document.getElementById("score-1").textContent = "0";
-document.getElementById("current-0").textContent = "0";
-document.getElementById("current-1").textContent = "0";
+// define an init function for starting a new game
+function init() {
+  score = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+
+  // Before the first launch hide the dice image
+  document.querySelector(".dice").style.display = "none";
+  // Before the first roll set scores to 0
+  document.getElementById("score-0").textContent = "0";
+  document.getElementById("score-1").textContent = "0";
+  document.getElementById("current-0").textContent = "0";
+  document.getElementById("current-1").textContent = "0";
+  // correct name of the player
+  document.getElementById("name-0").textContent = "Player 1";
+  document.getElementById("name-1").textContent = "Player 2";
+  // remove winner class if any
+  document.querySelector(".player-0-panel").classList.remove("winner");
+  document.querySelector(".player-1-panel").classList.remove("winner");
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-1-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.add("active");
+}
 
 // define function to switch player
 function changePlayer() {
@@ -39,6 +52,8 @@ function changePlayer() {
     .querySelector(".player-" + activePlayer + "-panel")
     .classList.add("active");
 }
+
+init();
 
 // create an event listener for the button to roll the dice
 document.querySelector(".btn-roll").addEventListener("click", function() {
@@ -81,3 +96,6 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
     changePlayer();
   }
 });
+
+// create event listener for the "new game" button, chiamando la funizione init
+document.querySelector(".btn-new").addEventListener("click", init);
